@@ -1,0 +1,20 @@
+# Java / Spring
+backend/target/
+*.class
+*.log
+
+# Node / React
+node_modules/
+frontend/dist/
+
+# Variables y secretos
+.env
+*.env.local
+application-local.properties
+
+# IDEs y sistema
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
