@@ -1,0 +1,33 @@
+### Listar servicios
+GET http://localhost:8080/api/public/servicios
+
+### Consultar disponibilidad
+GET http://localhost:8080/api/public/disponibilidad?dentistaId=1&servicioId=2&fecha=2026-11-05
+
+### Crear cita (debe responder 201)
+POST http://localhost:8080/api/public/citas
+Content-Type: application/json
+
+{
+  "dentistaId": 1,
+  "servicioId": 2,
+  "inicio": "2026-11-05T10:00:00",
+  "nombre": "Ana",
+  "apellidos": "López García",
+  "telefono": "7221234567",
+  "email": "ana@ejemplo.com",
+  "motivo": "Limpieza de rutina"
+}
+
+### Datos inválidos (debe responder 400)
+POST http://localhost:8080/api/public/citas
+Content-Type: application/json
+
+{
+  "dentistaId": 1,
+  "servicioId": 2,
+  "inicio": "2026-11-05T12:00:00",
+  "nombre": "",
+  "apellidos": "Prueba",
+  "telefono": "123"
+}
