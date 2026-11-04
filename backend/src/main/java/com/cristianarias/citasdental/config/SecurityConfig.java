@@ -19,7 +19,7 @@ public class SecurityConfig {
             .sessionManagement(session ->
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/public/**").permitAll()
+                    .requestMatchers("/api/public/**", "/error").permitAll()
                     .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults());
 

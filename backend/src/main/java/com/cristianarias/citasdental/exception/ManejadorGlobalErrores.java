@@ -1,0 +1,15 @@
+package com.cristianarias.citasdental.exception;
+
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
+
+@RestControllerAdvice
+public class ManejadorGlobalErrores {
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ProblemDetail manejarResponseStatus(ResponseStatusException ex) {
+        return ProblemDetail.forStatusAndDetail(ex.getStatusCode(), ex.getReason());
+    }
+}
