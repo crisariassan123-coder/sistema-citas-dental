@@ -40,7 +40,7 @@ public class CitaService {
 
     @Transactional
     public CitaCreadaDto crear(CrearCitaRequest req) {
-        // 1. Revalidar disponibilidad: horario laboral, bloqueos, citas existentes y horas pasadas
+        // 1. Se revalida la disponibilidad: horario laboral, bloqueos, citas existentes y horas pasadas
         DisponibilidadDto disponibilidad = disponibilidadService.consultar(
                 req.dentistaId(), req.servicioId(), req.inicio().toLocalDate());
 
@@ -51,7 +51,7 @@ public class CitaService {
         Dentista dentista = dentistaRepository.findById(req.dentistaId()).orElseThrow();
         Servicio servicio = servicioRepository.findById(req.servicioId()).orElseThrow();
 
-        // 2. Reutilizar al paciente si ya existe con ese teléfono, o crearlo
+        // 2. Se reutiliza al paciente si ya existe con ese teléfono; si no, se crea
         Paciente paciente = pacienteRepository.findFirstByTelefono(req.telefono())
                 .orElseGet(() -> {
                     Paciente nuevo = new Paciente();
@@ -62,7 +62,7 @@ public class CitaService {
                     return pacienteRepository.save(nuevo);
                 });
 
-        // 3. Armar la cita con un token seguro para el enlace de cancelar
+        // 3. Se arma la cita con un token seguro para el enlace de cancelación
         Cita cita = new Cita();
         cita.setPaciente(paciente);
         cita.setDentista(dentista);
@@ -72,7 +72,7 @@ public class CitaService {
         cita.setMotivo(req.motivo());
         cita.setTokenPublico(generarToken());
 
-        // 4. Guardar; si otra persona ganó el horario un instante antes, PostgreSQL lo rechaza
+        // 4. Se guarda la cita; si otra persona ocupó el horario un instante antes, PostgreSQL la rechaza
         try {
             citaRepository.saveAndFlush(cita);
         } catch (DataIntegrityViolationException e) {
@@ -100,7 +100,7 @@ public class CitaService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "La cita ya pasó y no se puede cancelar");
         }
 
-        // Al quedar CANCELADA, la restricción anti-empalmes y la disponibilidad la ignoran: el horario se libera
+        // Al quedar CANCELADA, la cita se ignora en la restricción anti-empalmes y en la disponibilidad: el horario se libera
         cita.setEstado(EstadoCita.CANCELADA);
         return CitaCreadaDto.desde(cita);
     }

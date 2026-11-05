@@ -53,12 +53,12 @@ public class DisponibilidadService {
         LocalDateTime inicioDelDia = fecha.atStartOfDay();
         LocalDateTime finDelDia = fecha.plusDays(1).atStartOfDay();
 
-        // 1. Horario laboral del dentista para ese día de la semana
+        // 1. Se obtiene el horario laboral del dentista para ese día de la semana
         short diaSemana = (short) fecha.getDayOfWeek().getValue();
         List<HorarioLaboral> horarios = horarioLaboralRepository
                 .findByDentistaIdAndDiaSemanaOrderByHoraInicioAsc(dentista.getId(), diaSemana);
 
-        // 2. Todo lo que ya ocupa tiempo: citas activas y bloqueos
+        // 2. Se reúne todo lo que ya ocupa tiempo: citas activas y bloqueos
         List<Intervalo> ocupados = new ArrayList<>();
         citaRepository.findActivasEntre(dentista.getId(), EstadoCita.CANCELADA, inicioDelDia, finDelDia)
                 .forEach(c -> ocupados.add(new Intervalo(c.getInicio(), c.getFin())));
@@ -66,7 +66,7 @@ public class DisponibilidadService {
                         dentista.getId(), finDelDia, inicioDelDia)
                 .forEach(b -> ocupados.add(new Intervalo(b.getInicio(), b.getFin())));
 
-        // 3. Recorrer el horario cada 15 minutos y quedarse con los huecos donde cabe el servicio
+        // 3. Se recorre el horario cada 15 minutos y se conservan los huecos donde cabe el servicio
         LocalDateTime ahora = LocalDateTime.now(ZONA_CONSULTORIO);
         List<LocalTime> disponibles = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class DisponibilidadService {
 
             while (!inicio.plus(duracion).isAfter(limite)) {
                 LocalDateTime fin = inicio.plus(duracion);
-                // 4. Descartar horas que ya pasaron o que chocan con algo
+                // 4. Se descartan las horas que ya pasaron o que chocan con algo
                 if (inicio.isAfter(ahora) && estaLibre(inicio, fin, ocupados)) {
                     disponibles.add(inicio.toLocalTime());
                 }

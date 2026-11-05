@@ -1,26 +1,69 @@
 .contenedor {
   max-width: 720px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2rem 1rem 3rem;
 }
 
-.servicios {
-  list-style: none;
-  padding: 0;
+.encabezado h1 {
+  margin-bottom: 0.25rem;
+}
+
+.encabezado p {
+  margin-top: 0;
+  color: #52606d;
+}
+
+h2 {
+  font-size: 1.3rem;
+}
+
+/* Resumen de lo que el paciente ya eligió */
+.seleccion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.seleccion span {
+  background: #e3f6f8;
+  color: #0b7285;
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Tarjetas de servicios y dentistas */
+.opciones {
   display: grid;
   gap: 1rem;
 }
 
-.servicio {
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+  font: inherit;
+  color: inherit;
   background: #ffffff;
   border: 1px solid #d0d7de;
   border-radius: 12px;
   padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.servicio h2 {
-  margin: 0 0 0.25rem;
-  font-size: 1.15rem;
+.tarjeta:hover,
+.tarjeta:focus-visible {
+  border-color: #0b7285;
+  box-shadow: 0 0 0 3px rgba(11, 114, 133, 0.15);
+  outline: none;
+}
+
+.tarjeta strong {
+  font-size: 1.1rem;
 }
 
 .detalle {
@@ -28,6 +71,151 @@
   font-weight: 600;
 }
 
+/* Horarios disponibles */
+.horas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.hora {
+  font: inherit;
+  font-weight: 600;
+  background: #ffffff;
+  color: #0b7285;
+  border: 1px solid #0b7285;
+  border-radius: 8px;
+  padding: 0.6rem 0;
+  cursor: pointer;
+}
+
+.hora:hover,
+.hora:focus-visible {
+  background: #0b7285;
+  color: #ffffff;
+  outline: none;
+}
+
+.subtitulo {
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+/* Formulario */
+.formulario {
+  display: grid;
+  gap: 1rem;
+}
+
+.campo {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+  max-width: 100%;
+}
+
+.campo input,
+.campo textarea {
+  font: inherit;
+  font-weight: 400;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+  border-color: #0b7285;
+  outline: 3px solid rgba(11, 114, 133, 0.15);
+}
+
+/* Botones */
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.boton-primario,
+.boton-secundario,
+.boton-peligro {
+  font: inherit;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.65rem 1.25rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.boton-primario {
+  background: #0b7285;
+  color: #ffffff;
+}
+
+.boton-secundario {
+  background: #ffffff;
+  color: #1f2933;
+  border-color: #d0d7de;
+}
+
+.boton-peligro {
+  background: #ffffff;
+  color: #c92a2a;
+  border-color: #c92a2a;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Confirmación */
+.resumen {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1rem;
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.resumen dt {
+  font-weight: 600;
+  color: #52606d;
+}
+
+.resumen dd {
+  margin: 0;
+}
+
+.resumen dd:first-letter {
+  text-transform: uppercase;
+}
+
+code {
+  word-break: break-all;
+  background: #e9ecef;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+/* Mensajes */
+.nota {
+  color: #52606d;
+}
+
 .error {
   color: #c92a2a;
+}
+
+.aviso {
+  background: #fff4e6;
+  color: #9c4a00;
+  border: 1px solid #ffd8a8;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
 }
