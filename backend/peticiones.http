@@ -2,16 +2,17 @@
 GET http://localhost:8080/api/public/servicios
 
 ### Consultar disponibilidad
-GET http://localhost:8080/api/public/disponibilidad?dentistaId=1&servicioId=2&fecha=2026-11-05
+GET http://localhost:8080/api/public/disponibilidad?dentistaId=1&servicioId=2&fecha=2026-11-12
 
 ### Crear cita (debe responder 201)
+# @name crearCita
 POST http://localhost:8080/api/public/citas
 Content-Type: application/json
 
 {
   "dentistaId": 1,
   "servicioId": 2,
-  "inicio": "2026-11-05T10:00:00",
+  "inicio": "2026-11-12T10:00:00",
   "nombre": "Ana",
   "apellidos": "López García",
   "telefono": "7221234567",
@@ -26,8 +27,17 @@ Content-Type: application/json
 {
   "dentistaId": 1,
   "servicioId": 2,
-  "inicio": "2026-11-05T12:00:00",
+  "inicio": "2026-11-12T12:00:00",
   "nombre": "",
   "apellidos": "Prueba",
   "telefono": "123"
 }
+
+### Ver la cita recién creada (usa el token de "Crear cita")
+GET http://localhost:8080/api/public/citas/{{crearCita.response.body.$.token}}
+
+### Cancelar la cita recién creada (debe responder 200 y estado CANCELADA)
+PATCH http://localhost:8080/api/public/citas/{{crearCita.response.body.$.token}}/cancelar
+
+### Token inexistente (debe responder 404)
+GET http://localhost:8080/api/public/citas/token-que-no-existe

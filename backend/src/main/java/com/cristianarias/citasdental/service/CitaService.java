@@ -5,6 +5,7 @@ import com.cristianarias.citasdental.dto.CrearCitaRequest;
 import com.cristianarias.citasdental.dto.DisponibilidadDto;
 import com.cristianarias.citasdental.entity.Cita;
 import com.cristianarias.citasdental.entity.Dentista;
+import com.cristianarias.citasdental.entity.EstadoCita;
 import com.cristianarias.citasdental.entity.Paciente;
 import com.cristianarias.citasdental.entity.Servicio;
 import com.cristianarias.citasdental.repository.CitaRepository;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Base64;
 
 @Service
@@ -27,6 +30,7 @@ public class CitaService {
 
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final String HORARIO_NO_DISPONIBLE = "El horario elegido ya no está disponible";
+    private static final ZoneId ZONA_CONSULTORIO = ZoneId.of("America/Mexico_City");
 
     private final DisponibilidadService disponibilidadService;
     private final DentistaRepository dentistaRepository;
@@ -76,6 +80,34 @@ public class CitaService {
         }
 
         return CitaCreadaDto.desde(cita);
+    }
+
+    @Transactional(readOnly = true)
+    public CitaCreadaDto consultarPorToken(String token) {
+        return CitaCreadaDto.desde(buscarPorToken(token));
+    }
+
+    @Transactional
+    public CitaCreadaDto cancelar(String token) {
+        Cita cita = buscarPorToken(token);
+
+        // Solo se cancelan citas activas
+        if (cita.getEstado() != EstadoCita.PENDIENTE && cita.getEstado() != EstadoCita.CONFIRMADA) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "La cita ya no se puede cancelar");
+        }
+        // Una cita que ya empezó o ya pasó no se cancela
+        if (!cita.getInicio().isAfter(LocalDateTime.now(ZONA_CONSULTORIO))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "La cita ya pasó y no se puede cancelar");
+        }
+
+        // Al quedar CANCELADA, la restricción anti-empalmes y la disponibilidad la ignoran: el horario se libera
+        cita.setEstado(EstadoCita.CANCELADA);
+        return CitaCreadaDto.desde(cita);
+    }
+
+    private Cita buscarPorToken(String token) {
+        return citaRepository.findByTokenPublico(token)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cita no encontrada"));
     }
 
     private String generarToken() {

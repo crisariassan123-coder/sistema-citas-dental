@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface CitaRepository extends JpaRepository<Cita, Long> {
 
@@ -22,4 +23,6 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
                                 @Param("estadoExcluido") EstadoCita estadoExcluido,
                                 @Param("desde") LocalDateTime desde,
                                 @Param("hasta") LocalDateTime hasta);
+
+    Optional<Cita> findByTokenPublico(String tokenPublico);
 }
