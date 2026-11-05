@@ -1,0 +1,33 @@
+.contenedor {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.servicios {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.servicio {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.servicio h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+}
+
+.detalle {
+  color: #0b7285;
+  font-weight: 600;
+}
+
+.error {
+  color: #c92a2a;
+}
