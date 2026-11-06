@@ -70,3 +70,16 @@ Content-Type: application/json
   "email": "admin@ejemplo.com",
   "password": "contrasena-incorrecta"
 }
+
+### Agenda del día (primero se debe ejecutar "Login del personal")
+GET http://localhost:8080/api/personal/citas?fecha=2026-11-12
+Authorization: Bearer {{login.response.body.$.token}}
+
+### Confirmar una cita (se cambia el 1 por el id que aparece en la agenda)
+PATCH http://localhost:8080/api/personal/citas/1/estado
+Authorization: Bearer {{login.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "estado": "CONFIRMADA"
+}

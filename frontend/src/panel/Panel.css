@@ -1,0 +1,147 @@
+/* Login del personal */
+.login {
+  max-width: 420px;
+}
+
+.tarjeta-formulario {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+/* Encabezado del panel */
+.panel {
+  max-width: 900px;
+}
+
+.barra-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.barra-panel h1 {
+  margin-bottom: 0.25rem;
+}
+
+.barra-panel p {
+  margin-top: 0;
+  color: #52606d;
+}
+
+.rol {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0b7285;
+}
+
+/* Navegación entre días */
+.navegacion-fecha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.navegacion-fecha input {
+  font: inherit;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+}
+
+/* Lista de citas */
+.lista-citas {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cita {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 1rem;
+  align-items: start;
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-left: 5px solid #adb5bd;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.estado-pendiente { border-left-color: #f08c00; }
+.estado-confirmada { border-left-color: #1c7ed6; }
+.estado-atendida { border-left-color: #2f9e44; }
+.estado-no_asistio { border-left-color: #c92a2a; }
+.estado-cancelada { border-left-color: #adb5bd; opacity: 0.65; }
+
+.cita-hora {
+  display: grid;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.cita-hora small {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #52606d;
+}
+
+.cita-detalle {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.cita-detalle a {
+  color: #0b7285;
+  text-decoration: none;
+}
+
+.motivo {
+  color: #52606d;
+  font-style: italic;
+}
+
+.cita-acciones {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+  min-width: 120px;
+}
+
+.cita-acciones button {
+  padding: 0.4rem 0.75rem;
+}
+
+/* Etiquetas de estado */
+.etiqueta {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+}
+
+.etiqueta-pendiente { background: #fff4e6; color: #d9480f; }
+.etiqueta-confirmada { background: #e7f5ff; color: #1864ab; }
+.etiqueta-atendida { background: #ebfbee; color: #2b8a3e; }
+.etiqueta-no_asistio { background: #fff5f5; color: #c92a2a; }
+.etiqueta-cancelada { background: #f1f3f5; color: #495057; }
+
+/* En pantallas pequeñas, las acciones pasan debajo de los datos */
+@media (max-width: 600px) {
+  .cita {
+    grid-template-columns: 70px 1fr;
+  }
+
+  .cita-acciones {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

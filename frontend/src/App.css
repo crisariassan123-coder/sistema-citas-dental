@@ -97,9 +97,13 @@ h2 {
   outline: none;
 }
 
+/* Solo la primera letra en mayúscula: "Jueves, 5 de noviembre de 2026" */
 .subtitulo {
-  text-transform: capitalize;
   font-weight: 600;
+}
+
+.subtitulo::first-letter {
+  text-transform: uppercase;
 }
 
 /* Formulario */

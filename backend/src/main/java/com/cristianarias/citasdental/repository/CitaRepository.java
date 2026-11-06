@@ -25,4 +25,21 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
                                 @Param("hasta") LocalDateTime hasta);
 
     Optional<Cita> findByTokenPublico(String tokenPublico);
+
+    /**
+     * Citas de un rango de fechas con su paciente, servicio y dentista.
+     * Con JOIN FETCH todo se obtiene en una sola consulta y se evita el problema N+1
+     * (una consulta extra por cada cita para traer sus datos relacionados).
+     */
+    @Query("""
+            SELECT c FROM Cita c
+            JOIN FETCH c.paciente
+            JOIN FETCH c.servicio
+            JOIN FETCH c.dentista
+            WHERE c.inicio >= :desde
+              AND c.inicio < :hasta
+            ORDER BY c.inicio
+            """)
+    List<Cita> findDelRangoConDetalle(@Param("desde") LocalDateTime desde,
+                                      @Param("hasta") LocalDateTime hasta);
 }
