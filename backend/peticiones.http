@@ -41,3 +41,32 @@ PATCH http://localhost:8080/api/public/citas/{{crearCita.response.body.$.token}}
 
 ### Token inexistente (debe responder 404)
 GET http://localhost:8080/api/public/citas/token-que-no-existe
+
+### Login del personal (debe responder 200 con un token)
+# Se piden el correo y la contraseña al enviar, para no dejarlos escritos en este archivo
+# @prompt email Correo del administrador
+# @prompt password Contraseña del administrador
+# @name login
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### Ver el usuario actual con el token (debe responder 200)
+GET http://localhost:8080/api/personal/yo
+Authorization: Bearer {{login.response.body.$.token}}
+
+### Ruta protegida sin token (debe responder 401)
+GET http://localhost:8080/api/personal/yo
+
+### Login con contraseña incorrecta (debe responder 401)
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@ejemplo.com",
+  "password": "contrasena-incorrecta"
+}
